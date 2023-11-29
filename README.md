@@ -8,7 +8,7 @@
 
 2. Necessary explanations and analyses of the simulation results including but not limited to the following.
 
-    - labels of x/y axis
+    - labels of axes
     - trend of corresponding simulation curves
     - comparison between methods
     - new discoveries of property, principle, and conclusion

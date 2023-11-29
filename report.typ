@@ -8,7 +8,7 @@
 
 == Cramér--Rao lower bound
 
-The support of likelihood $p$ is always $RR$, so does not depend on the parameter $f_0$. Moreover, PDF is smooth thus $pdv(,theta) p$ and $pdv(,theta) integral p dif x$ exist everywhere. As a result, the problem is regular and Cramér--Rao lower bound holds.
+The support of likelihood $p$ is always $RR$, so does not depend on the parameter $f_0$. Moreover, PDF is smooth thus $pdv(,theta) p$ and $pdv(,theta) integral p dif x$ exist everywhere. As a result, the problem is regular and Cramér--Rao lower bound (CRLB) holds.
 
 The average log likelihood
 $
@@ -25,7 +25,7 @@ pdv(,f_0) s[n; f_0] &= -2 pi n A sin(2pi f_0 n + phi.alt). \
 // pdv(,f_0, 2) s[n; f_0] &= -(2 pi n)^2 s[n; f_0]. \
 $
 
-It can be derived that
+We can derive that
 $
 pdv(,f_0) (x - s)^2 / 2 &= -(x - s) pdv(,f_0) s. \
 pdv(,f_0, 2) (x - s)^2 / 2
@@ -76,11 +76,11 @@ $
 
 - The bound is *symmetric* about $f_0 = 1/4$.
 
-  $sin(2pi (1/2 - f_0) n) = (-1)^n sin(2pi f_0 n)$. We don't care about “$plus.minus$”, so the bound are same for $f_0$ and $1/2 - f_0$.
+  $sin(2pi (1/2 - f_0) n) = (-1)^n sin(2pi f_0 n)$. We do not care about “$plus.minus$”, so the bound are same for $f_0$ and $1/2 - f_0$.
 
-- The *approximation* of $sin^2(dots.c) approx 1/2$ holds, and it's more accurate for high frequencies ($f_0 approx 1/4$).
+- The *approximation* of $sin^2(dots.c) approx 1/2$ holds, and it is more accurate for high frequencies ($f_0 approx 1/4$).
 
-  For high frequencies, the phase looks more random, so $sum sin^2(dots.c)$ becomes similar to $integral sin^2 theta dif theta$. (Errors get cancelled out more easily.)
+  For high frequencies, the phase looks more random, so $sum sin^2(dots.c)$ becomes similar to $integral sin^2 theta dif theta$. (Errors get canceled out more easily.)
 
 - The bound *oscillates* across $f_0$, and there are *preferred frequencies* ($f_0$ with smaller bound) around $f_0 approx 1/(2N), 2/(2N), ..., (N-1)/(2N)$.
 
