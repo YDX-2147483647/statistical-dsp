@@ -5,9 +5,9 @@
 ## Requirement of simulation report
 
 1. Necessary theoretical derivations and explanations.
-   
+
 2. Necessary explanations and analyses of the simulation results including but not limited to the following.
-  
+
     - labels of x/y axis
     - trend of corresponding simulation curves
     - comparison between methods
