@@ -1,1 +1,5 @@
 *.pdf
+
+*.nb
+fig/*
+!fig/.gitkeep
