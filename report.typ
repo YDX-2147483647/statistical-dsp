@@ -479,7 +479,7 @@ $variant hat(A)$ and $K$ does not change across simulations once $A, r$ are dete
 
   If $K$ takes one of the endpoints, then either existing data or new data is totally ignored. Insufficient use of data never gives a good estimator.
 
-Now let us discuss $hat(A)$, which is a random variable (or a random sequence if you like).
+Now let us discuss $hat(A)$, which is a random variable (or a random sequence if you like). The simulation result is shown below.
 
 #figure(
   image("fig/recursive-estimator.png", width: 80%),
@@ -489,3 +489,35 @@ Now let us discuss $hat(A)$, which is a random variable (or a random sequence if
     $A=10$.
   ]
 )
+
+- $x$ is roughly distributed *between* $A plus.minus r^(n\/2)$.
+
+  It is a feature of $cal(N)(A, r^n)$.
+
+  - $r in (0,1)$: Newer data has less noise.
+  - $r = 1$: The contamination does not depend on $n$.
+  - $r > 1$: Only first several data concentrated around the true value $A=10$, and later data tends to diverge to the whole $RR$.
+
+- $hat(A)$ never goes wildly no matter how large $r$ is, and *converges* if $r <= 1$.
+
+  It is due to the trend of $variant hat(A)$.
+
+  Even if $r > 1$, $hat(A)$ does not variate as wildly as $x$ does, because polluted data is ignored.
+
+- $hat(A)$ approaches to the true value more *quickly* for smaller $r$.
+
+  It is a subtle phenomenon, and worth pointing out evidences. For $r=0.95$, the line of $hat(A)$ coincides with the horizontal grid line of $10$ starting from $n approx 60$. For $r=1$, it coincides starting from $n approx 90$. For $r=1.05$, it never coincides…
+
+  It also due to the trend of $variant hat(A)$.
+
+- For $r>1$, $hat(A)$ can get stuck at a *biased* value.
+
+  In this case, later data is too contaminated to be used effectively, so the major factor of $hat(A)$ is only the first several data. Needless to say, such a small sample size can hardly yields a good estimation.
+
+- Different $r$'s are indistinguishable in the *beginning*.
+
+  (This is an alternative question of estimating $r$ with $A$ known or unknown.)
+
+  When $n$ is small (say, $n < 10$), all 3 cases gives unstable estimations with large error.
+
+  $r$ does not alter $r^n$ too much if $n$ is small, so they are indistinguishable. There is too few data if $n$ is small, thus there is no sufficient information, so all estimations are bad.
