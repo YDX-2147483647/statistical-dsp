@@ -267,3 +267,73 @@ As shown in @fig:variance, *$f_1 = 1/4$ yields the smallest $variant hat(A)$* fo
   $
   N A^2 variant hat(A) -> 2 P_w (f_1).
   $
+
+= DC level estimation and maximum likelihood estimator
+
+== Theoretical derivations
+
+The average log likelihood
+$
+(ln p) / N
+&= - ln sqrt(2pi sigma^2) - overline((x - A)^2)  / (2 sigma^2).
+$
+The numerator of the second term is the only part depending on $A$, and it can be collected as
+$
+overline(x^2) - 2 A overline(x) + A^2
+&= overline(x^2) - overline(x)^2 + (A - overline(x))^2.
+$
+Now it is obvious that $hat(A) = overline(x)$ is a maximum likelihood estimator (MLE).
+
+$overline(x)$ follows a normal distribution as it is a linear combination of joint normally distributed $x[0], x[1], ..., x[N-1]$. Then we can determine the distribution by calculating first 2 moments:
+$
+expect overline(x)
+&= overline(expect x) = overline(A) = A. \
+variant overline(A)
+&= variant (sum x)/N = (variant sum x)/N^2
+= (sum variant x)/N^2
+= (N sigma^2)/N^2 = sigma^2/N. \
+$
+Therefore $overline(x) tilde cal(N)(A, sigma^2/N)$.
+
+== Monte--Carlo simulations
+
+Histograms of Monte--Carlo simulations are comparing with $cal(N)(A, sigma^2/N)$ below.
+
+#figure(
+  image("fig/PDF-1000.png", width: 60%),
+  caption: [
+    PDF by theory and simulation
+
+    $A=1$, $sigma^2=0.1$, $N=50$ with $M=1000$ realizations.
+  ]
+) <fig:PDF-1000>
+
+- PDF of $cal(N)(A, sigma^2/N)$ is a *bell curve* centered at $1.00$ with half width around $0.05$ in @fig:PDF-1000.
+
+  $A = 1$ and $sqrt(sigma^2/N) approx 0.045$ match the result.
+
+- The simulation shown in @fig:PDF-1000 *verifies* the theoretical distribution.
+
+  Histogram in @fig:PDF-1000 does not deviate too much from $cal(N)(A, sigma^2/N)$, because the number of bins is chosen properly by Scott's normal reference rule.
+
+  If we split data into too many bins, then data in each bin is not sufficiently large, and unrealistic random fluctuations will appear in the histogram. (See @fig:PDF-1000-too_many_bins)
+
+  #figure(
+    image("fig/PDF-1000-too_many_bins.png", width: 40%),
+    caption: [
+      PDF by theory and simulation, but too many bins
+
+      The data is identical to that in @fig:PDF-1000.
+    ]
+  ) <fig:PDF-1000-too_many_bins>
+
+  This is an essential caveat of Monte--Carlo simulations. To obtain a detailed PDF, we should make more realizations. @fig:PDF-5000 increases $M$ from $1000$ to $5000$, and the data is capable of more bins.
+
+  #figure(
+    image("fig/PDF-5000.png", width: 60%),
+    caption: [
+      PDF by theory and simulation
+
+      $A=1$, $sigma^2=0.1$, $N=50$ with $M=5000$ realizations.
+    ]
+  ) <fig:PDF-5000>
