@@ -5,6 +5,8 @@
 #let expect = math.op("𝔼")
 #let variant = math.op("𝕍")
 
+#outline(indent: 2em)
+
 = Sinusoidal frequency estimation and Cramér--Rao lower bound
 
 == Cramér--Rao lower bound
