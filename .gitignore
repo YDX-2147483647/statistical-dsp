@@ -1,5 +1,6 @@
 *.pdf
 
 *.nb
+*-data.json
 fig/*
 !fig/.gitkeep

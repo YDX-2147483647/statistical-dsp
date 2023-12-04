@@ -337,3 +337,155 @@ Histograms of Monte--Carlo simulations are comparing with $cal(N)(A, sigma^2/N)$
       $A=1$, $sigma^2=0.1$, $N=50$ with $M=5000$ realizations.
     ]
   ) <fig:PDF-5000>
+
+= DC level estimation and recursive least squares
+
+== Derivations
+
+$x[n] tilde cal(N)(A, r^n)$ independently, so the least squares estimator (LSE)
+$
+hat(A) = (sum_n r^(-n) x[n]) / (sum_n r^(-n))
+$
+with variance
+$
+variant hat(A) = 1 / (sum_n r^(-n)).
+$
+
+Let
+- $hat(A)$ be LSE for $x[0],...,x[N-1]$, and $hat(A)'$ be LSE for $x[0],...,x[N]$;
+- $X := sum_(n<N) r^(-n) x[n]$, and $X' := sum_(n<=N) r^(-n) x[n] = X + r^(-N) x[N]$;
+- $S := sum_(n<N) r^(-n)$, and $S' := sum_(n<=N) r^(-n) = S + r^(-N)$.
+
+To find the recursive version
+$
+hat(A)'
+&= X'/S'
+= (X + r^(-N) x[N]) / S'
+= (S hat(A) + r^(-N) x[N]) / S' \
+&= S/S' hat(A) + r^(-N) / S' x[N] \
+&= hat(A) + underbrace(r^(-N) / S', "gain factor") (x[N] - hat(A)). \
+$
+The gain factor
+$
+K'
+&:= r^(-N) / S'
+= r^(-N) / (S + r^(-N))
+= r^(-N) / (1/(variant hat(A)) + r^(-N)) \
+&= (variant hat(A)) / (r^N + variant hat(A)).
+$
+and
+$
+variant hat(A)'
+&= 1/S'
+= r^N K'
+= (r^N variant hat(A)) / (r^N + variant hat(A)) \
+&= (1 - K') variant hat(A).
+$
+
+To wrap up:
+
+- *Estimator update*:
+  $
+  hat(A)[n] = underbrace(hat(A)[n-1], "last estimate") + K[n] underbrace((x[n-1] - hat(A)[n-1]), "correction"),
+  $
+  where the gain factor
+  $K[n] = (variant hat(A)[n-1]) / (variant hat(A)[n-1] + r^n)$.
+
+- *Variance update*:
+  $
+  variant hat(A)[n] = (1 - K[n]) variant hat(A)[n-1].
+  $
+
+- *Initial condition*:
+  - Estimator: $hat(A)[0] = x[0]$.
+  - Variance: $variant hat(A)[0] = r^0 = 1$.
+
+_Remarks._
+In fact it is redundant to iterate all three variable, because $variant hat(A)$ and $K$ are highly related.
+To specific, $variant hat(A)[n-1] |-> K$ and $(variant hat(A)[n-1], K) |-> variant hat(A)[n]$ can be merged.
+Moreover, it would be even simpler to iterate $X,S$ that I mentioned above.
+
+== Simulations
+
+$variant hat(A)$ and $K$ does not change across simulations once $A, r$ are determined. We will analyze $hat(A)$ after talking about $variant hat(A)$ and $K$.
+
+#figure(
+  image("fig/recursive-variance.png", width: 100%),
+  caption: [
+    Variance $variant hat(A)$ by $n$ iterations
+
+    The right plot is a zoom of the left.
+  ]
+)
+
+- $variant hat(A)$ *decreases* as $n$ increases.
+
+  The larger $N$ is, the more we know about $A$, and the better we can estimate it.
+
+  In addition, $variant hat(A)$ *drops faster* when $n$ is small. New estimation is a compromise between last estimation and new data. When $n$ is small, existing estimation is weakly trusted, so new data matters more, and reduces $variant hat(A)$ more significantly.
+
+- $variant hat(A)$ is larger for *larger $r$*. (when $n$ is the same)
+
+  Larger $r$ means $w$ with larger variance. It infers that $x$ is more contaminated, making $A$ harder be to estimate.
+
+- $variant hat(A)$ would be *saturated* after some iterations if $r > 1$.
+
+  As $n -> +oo$,
+
+  - $abs(r) > 1$: $variant hat(A) = 1 \/ sum r^(-n) -> r-1 > 0$.
+
+  - $r = 1$: $variant hat(A) = 1/(n+1) -> 0$.
+
+  - $r in (0,1)$: $variant hat(A) = 1 \/ sum_(n'<n) r^(-n') = (1-r) / (1-r^(-n)) = order(r^n) -> 0$.
+
+- $variant hat(A)$ is always *positive*.
+
+  It is nonnegative by definition. It is nonzero because the initial randomness can never be removed.
+
+#figure(
+  image("fig/recursive-gain.png", width: 100%),
+  caption: [
+    Gain factor $K$ by $n$ iterations
+
+    The right plot is a zoom of the left.
+  ]
+)
+
+- $K$ *decreases* as $n$ increases.
+
+  Again, new estimation is a compromise between last estimation and new data. Once $n$ is sufficiently large, we have obtained almost all the information of $A$ from existing data, thus new data matters less.
+
+  In addition, $K$ *drops faster* when $n$ is small.
+
+- $K$ is larger for *smaller $r$*. (when $n$ is the same)
+
+  When $r$ is smaller, the variance of $w$ decreases faster (or increases slower). Therefore, new data is more accurate and matters more.
+
+- $K$ does *not converge to zero* if $r < 1$.
+
+  If $r in (0,1)$, then the variance of $w$ decreases, so new data is always better than all existing data, so it is wise to take new data into consideration.
+
+  Quantitatively, as $n -> +oo$,
+
+  - $abs(r) > 1$: $K = r^(-n) variant hat(A) = r^(-n) times order(1) -> 0$.
+
+  - $r = 1$: $K = 1 times variant hat(A) -> 0$.
+
+  - $r in (0,1)$: $K = r^(-n) / (sum r^(-n)) = 1 \/ sum r^n -> 1-r > 0$.
+
+- $K$ is always strictly *between $0$ and $1$*.
+
+  New estimation is a compromise between last estimation and new data with weight $(1-K):K$. To make sure that new estimation is between last estimation and new data, both $1-K$ and $K$ should be nonnegative, thus $K in [0,1]$.
+
+  If $K$ takes one of the endpoints, then either existing data or new data is totally ignored. Insufficient use of data never gives a good estimator.
+
+Now let us discuss $hat(A)$, which is a random variable (or a random sequence if you like).
+
+#figure(
+  image("fig/recursive-estimator.png", width: 80%),
+  caption: [
+    Estimator $hat(A)$ by $n$ iterations
+
+    $A=10$.
+  ]
+)
