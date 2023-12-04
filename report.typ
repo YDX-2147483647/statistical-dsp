@@ -155,6 +155,9 @@ $
 
   Frequency $1/4$ corresponds to period $4$, or $+1, 0, -1, 0$ in ACF. But the actual ACF is $++, 0, +, 0$, which does not match perfectly with $+,0, -, 0$. Therefore PSD is low at $1/4$.
 
+_Remarks._
+The document did not specify whose PSD should be of concerned. PSD of $w$ is strongly related to performance of $hat(A)$, so I discuss it here. Besides, PSD of $x = A cos(2pi f_1 n) + w$ is $P_w (f)$ plus a Dirac $delta$ at $f = f_1$. (Specific strength of $delta$ depends on the value of $A$.)
+
 == Variance of the estimator
 
 $
@@ -173,11 +176,17 @@ which is a scalar. Notice that $H prop A$, thus $A^2 variant hat(A)$ does not de
 
 As shown in @fig:variance, *$f_1 = 1/4$ yields the smallest $variant hat(A)$* for $N=50$.
 
-- The relation between $variant hat(A)$ and $f$ is *similar to PSD* of $w$ (shown in @fig:PSD).
+- The relation between $variant hat(A)$ and $f$ is *similar to PSD* (of $w$) $P_w$ (shown in @fig:PSD).
 
   This should not be too surprising. The less the noise $w$ corrupts the signal, the more accurate we are able to estimate $A$.
 
   Extreme case: If $w$ does not intersect with $A cos(2pi f_1 n)$ in frequency domain, then we can estimate $A$ infinitely accurate by leveraging a band-pass filter at $f_1$.
+
+- The relation is *symmetric* about $1/4, 0$, and has *period* $1/2$.
+
+  The argument for PSD also stands here.
+
+  Moreover, we can explain the period $1/2$ in a new way. We estimate $A$ by counting $cos(2pi f_1 m) cos(2pi f_1 n) = 1/2 (cos(2pi f_1 (m+n)) - cos(2pi f_1 (m-n)))$, where $m,n in ZZ$. Note that $m+n, m-n in 2 ZZ$. In other words, $hat(A)$ only contains $cos(4pi f_1 ZZ)$. That means if you change $f_1 |-> f_1 + 1/2$, $hat(A)$ does not change, because $4pi times 1/2 = 2pi$ is a period of $cos$.
 
 - $variant hat(A)$ attains *local minimum at $0$ and $1/2$*.
 
@@ -187,7 +196,7 @@ As shown in @fig:variance, *$f_1 = 1/4$ yields the smallest $variant hat(A)$* fo
 
 - The curve is *not stable around $0$ and $1/2$*.
 
-  The phenomenon exists for any $N$, and the unstable range is more concentrated for larger $N$. (See @fig:variance-ns)
+  The phenomenon exists for any $N$, and the unstable range is more concentrated for larger $N$. (See @fig:variance-ns and @fig:variance-n-500)
 
   #figure(
     image("fig/variance-ns.png", width: 70%),
@@ -197,3 +206,62 @@ As shown in @fig:variance, *$f_1 = 1/4$ yields the smallest $variant hat(A)$* fo
   ) <fig:variance-ns>
 
   $hat(A)$ is roughly a band-pass filter at $f_1$ applied on $x$ normalized to $A$. If the sequence $cos(2pi f_1 n), space n=0,...,N-1$ does not vary sufficiently, the filter is not well-behaved.
+
+  I've discussed the unstable range with 林曦萌, and he explains how the range is unstable. No matter what $C^(-1)$ is, $H^dagger C^(-1) H$ is always a linear combination of $cos(2pi f m) cos(2pi f n)$ (where $m,n in {0,...,N-1}$), and can be regarded as a partial sum of a cosine series. The most unstable component among them is $cos(4pi (N-1) f)$, and it contributes to the unstable range. This explains why the curve oscillates more violently (thus, more concentrated) for larger $N$.
+
+- $N A^2 variant hat(A) -> 2 P_w (f_1)$ *as $N -> +oo$* for $f_1 in (0,1/2)$ pointwisely. (See @fig:variance-n-500)
+
+  #figure(
+    image("fig/variance-n-500.png", width: 80%),
+    caption: [
+      $N A^2 variant hat(A)$ for $N = 500$
+    ]
+  ) <fig:variance-n-500>
+
+  I have given a qualitative comprehension when I was comparing @fig:variance to @fig:PSD above, and here is a more quantitative (but still not rigorous) comprehension.
+
+  PSD $P_w$ is Fourier of ACF $r_(w w)$, which generates the covariance matrix $C$. Let $v$ be the inverse Fourier of $1/P_w$, and it generates another Toeplitz matrix $V$ according to $V_(i j) = v[i-j]$.
+
+  _Now I claim that $V -> C^(-1)$ as $N->+oo$._
+
+  Reason:
+  1. By construction of $v$, $r_(w w) * v = delta$, except at where we truncate them.
+  2. For any vector $y$, $C y = r_(w w) * y$. This is a the motivation behind Toeplitz matrices.
+  3. Substitute $y[i] = v[i-j]$, we get $C V = I$, except around 4 edges of the matrix.
+  4. As $N->+oo$, those edges are negligible.
+
+  @fig:covariance_and_precision shows $C^(-1)$ for a finite $N$. We can see that $C^(-1)$ is Toeplitz-ish in the center, and fades out around the edges.
+
+  #figure(
+    image("fig/covariance_and_precision.png", width: 80%),
+    caption: [
+      $C$ and $C^(-1)$ for $N = 30$
+
+      Color of the cell at row $r$ column $c$ represents $C_(r c)$ and $(C^(-1))_(r c)$ respectively.
+    ]
+  ) <fig:covariance_and_precision>
+
+  _Second claim: $V H -> 1 / (P_w (f_1)) H$ as $N->+oo$._
+
+  Reason:
+  1. $cos(2pi f_1 n)$ is an eigen-function of any linear shift-invariant system with symmetric frequency response.
+  2. $v$ represents such a system, and its frequency response is $1/P_w$.
+  3. $V H = v * H = 1 / (P_w (f_1)) H$ as $N->+oo$.
+
+  _Third claim: $2/(N A^2) H^dagger H -> 1$ as $N->+oo$._
+
+  Reason: $H^dagger H = sum A^2 cos^2(2pi f_1 n) approx sum A^2/2 = 1/2 N A^2$.
+
+  Combining the claims, we have
+  $
+  variant hat(A)
+  &= 1/(H^dagger C^(-1) H)
+  &-> 1/(H^dagger V H)
+  &-> 1/(H^dagger 1/(P_w (f_1)) H)
+  &= (P_w (f_1)) / (H^dagger H)
+  &-> 2/(N A^2) P_w (f_1),
+  $
+  or
+  $
+  N A^2 variant hat(A) -> 2 P_w (f_1).
+  $
