@@ -40,9 +40,9 @@ $
 
 Therefore, the average observed Fisher information
 $
-pdv(,f_0, 2) (ln p) / N
-&= - 1/sigma^2 overline(pdv(,f_0, 2) (x - s)^2 / 2) \
-&= 1/sigma^2 overline((x - s) pdv(,f_0,2) s - (pdv(,f_0) s)^2). \
+- pdv(,f_0, 2) (ln p) / N
+&= 1/sigma^2 overline(pdv(,f_0, 2) (x - s)^2 / 2) \
+&= - 1/sigma^2 overline((x - s) pdv(,f_0,2) s - (pdv(,f_0) s)^2). \
 $
 Take expectation and substitute $expect x = s$, and we get Fisher information
 $
@@ -81,9 +81,9 @@ $
 
   $sin(2pi (1/2 - f_0) n) = (-1)^n sin(2pi f_0 n)$. We do not care about “$plus.minus$”, so the bound are same for $f_0$ and $1/2 - f_0$.
 
-- The *approximation* of $sin^2(dots.c) approx 1/2$ holds, and it is more accurate for high frequencies ($f_0 approx 1/4$).
+- The *approximation* of $sin^2(dots.c) approx 1/2$ holds, and it is more accurate for middle frequencies ($f_0 approx 1/4$).
 
-  For high frequencies, the phase looks more random, so $sum sin^2(dots.c)$ becomes similar to $integral sin^2 theta dif theta$. (Errors get canceled out more easily.)
+  For middle frequencies, the phase looks more random (not just $0$ or $pi$), so $sum sin^2(dots.c)$ becomes similar to $integral sin^2 theta dif theta$. In other words, errors of the approximation get canceled out more easily.
 
 - The bound *oscillates* across $f_0$, and there are *preferred frequencies* ($f_0$ with smaller bound) around $f_0 approx 1/(2N), 2/(2N), ..., (N-1)/(2N)$.
 
@@ -182,7 +182,7 @@ As shown in @fig:variance, *$f_1 = 1/4$ yields the smallest $variant hat(A)$* fo
 
   This should not be too surprising. The less the noise $w$ corrupts the signal, the more accurate we are able to estimate $A$.
 
-  Extreme case: If $w$ does not intersect with $A cos(2pi f_1 n)$ in frequency domain, then we can estimate $A$ infinitely accurate by leveraging a band-pass filter at $f_1$.
+  Extreme case: If $w$ does not intersect with $A cos(2pi f_1 n)$ in frequency domain, then we can estimate $A$ arbitrarily accurate by leveraging a band-pass filter at $f_1$.
 
 - The relation is *symmetric* about $1/4, 0$, and has *period* $1/2$.
 
@@ -484,7 +484,7 @@ Now let us discuss $hat(A)$, which is a random variable (or a random sequence if
 #figure(
   image("fig/recursive-estimator.png", width: 80%),
   caption: [
-    Estimator $hat(A)$ by $n$ iterations
+    Estimator $hat(A)$ by $n$ iterations for different $r$'s
 
     $A=10$.
   ]
