@@ -11,7 +11,7 @@
 
 == Cramér--Rao lower bound
 
-The support of likelihood $p$ is always $RR$, so does not depend on the parameter $f_0$. Moreover, PDF is smooth thus $pdv(,theta) p$ and $pdv(,theta) integral p dif x$ exist everywhere. As a result, the problem is regular and Cramér--Rao lower bound (CRLB) holds.
+The support of likelihood $p$ is always $RR$, so does not depend on the parameter $f_0$. Moreover, PDF is smooth, hence $pdv(,theta) p$ and $pdv(,theta) integral p dif x$ exist everywhere. As a result, the problem is regular and Cramér--Rao lower bound (CRLB) holds.
 
 The average log likelihood
 $
@@ -59,7 +59,7 @@ $
 
 If we approximate all $sin^2 (dots.c)$ as
 $1/(2pi) integral_0^(2pi) sin^2 theta dif theta = 1/2$,
-then we know CRLB is approximately
+then we know CRLB is about
 $
 (sigma / (2pi A))^2 1 / (sum_n 1/2 n^2)
 &approx (sigma / (2pi A))^2 6/(N (N-1/2) (N-1)) \
@@ -83,7 +83,7 @@ $
 
 - The *approximation* of $sin^2(dots.c) approx 1/2$ holds, and it is more accurate for middle frequencies ($f_0 approx 1/4$).
 
-  For middle frequencies, the phase looks more random (not just $0$ or $pi$), so $sum sin^2(dots.c)$ becomes similar to $integral sin^2 theta dif theta$. In other words, errors of the approximation get canceled out more easily.
+  For middle frequencies, the phase looks more random (not just $0$ or $pi$), so $sum sin^2(dots.c)$ becomes similar to $integral sin^2 theta dif theta$. That is, errors of the approximation get canceled out more easily.
 
 - The bound *oscillates* across $f_0$, and there are *preferred frequencies* ($f_0$ with smaller bound) around $f_0 approx 1/(2N), 2/(2N), ..., (N-1)/(2N)$.
 
@@ -93,13 +93,13 @@ $
 
 - The bound *goes to $+oo$* as $f_0 -> 0^+$ or $f_0 -> (1/2)^-$.
 
-  $sin(0 n) equiv 0$ ($f_0 = 0$) and $sin(pi n) equiv 0$ ($f_0 = 1/2$), thus a slight change in frequency will not alter the signal significantly, making it hard to estimate.
+  $sin(0 n) equiv 0$ ($f_0 = 0$) and $sin(pi n) equiv 0$ ($f_0 = 1/2$). Thus, a slight change in frequency will not alter the signal significantly, making it hard to estimate.
 
 = Sinusoidal amplitude estimation and best linear unbiased estimator
 
 == Estimate the amplitude
 
-We know first two moments of the distribution, but we have no knowledge of PDF (probability density function). Therefore, best linear unbiased estimator (BLUE) is preferred.
+We know first two moments of the distribution, but we have no knowledge of PDF (probability density function). Therefore, we prefer best linear unbiased estimator (BLUE).
 
 Observation matrix
 $
@@ -141,7 +141,7 @@ $
 
 - The auto-correlation is real and *symmetric about $0$* (and conjugate symmetric about $0$), so is the PSD.
 
-  That's why we only plot for $f in [0,1/2]$.
+  That is why we only plot for $f in [0,1/2]$.
 
 - PSD is *symmetric about $1/4$*.
 
@@ -165,7 +165,7 @@ The document did not specify whose PSD should be of concerned. PSD of $w$ is str
 $
 variant hat(A) = (H^dagger C^(-1) H)^(-1),
 $
-which is a scalar. Notice that $H prop A$, thus $A^2 variant hat(A)$ does not depend on $A$, which simplifies the problem.
+which is a scalar. Notice that $H prop A$, so $A^2 variant hat(A)$ does not depend on $A$, which simplifies the problem.
 
 #figure(
   image("fig/variance.png", width: 60%),
@@ -180,21 +180,21 @@ As shown in @fig:variance, *$f_1 = 1/4$ yields the smallest $variant hat(A)$* fo
 
 - The relation between $variant hat(A)$ and $f$ is *similar to PSD* (of $w$) $P_w$ (shown in @fig:PSD).
 
-  This should not be too surprising. The less the noise $w$ corrupts the signal, the more accurate we are able to estimate $A$.
+  This should not be too surprising. The less the noise $w$ corrupts the signal, the more precise we are able to estimate $A$.
 
-  Extreme case: If $w$ does not intersect with $A cos(2pi f_1 n)$ in frequency domain, then we can estimate $A$ arbitrarily accurate by leveraging a band-pass filter at $f_1$.
+  Extreme case: If $w$ does not intersect with $A cos(2pi f_1 n)$ in frequency domain, then we can estimate $A$ exactly by leveraging a band-pass filter at $f_1$.
 
 - The relation is *symmetric* about $1/4, 0$, and has *period* $1/2$.
 
   The argument for PSD also stands here.
 
-  Moreover, we can explain the period $1/2$ in a new way. We estimate $A$ by counting $cos(2pi f_1 m) cos(2pi f_1 n) = 1/2 (cos(2pi f_1 (m+n)) - cos(2pi f_1 (m-n)))$, where $m,n in ZZ$. Note that $m+n, m-n in 2 ZZ$. In other words, $hat(A)$ only contains $cos(4pi f_1 ZZ)$. That means if you change $f_1 |-> f_1 + 1/2$, $hat(A)$ does not change, because $4pi times 1/2 = 2pi$ is a period of $cos$.
+  Moreover, we can explain the period $1/2$ in a new way. We estimate $A$ by counting $cos(2pi f_1 m) cos(2pi f_1 n) = 1/2 (cos(2pi f_1 (m+n)) - cos(2pi f_1 (m-n)))$, where $m,n in ZZ$. Note that $m+n, m-n in 2 ZZ$. That is, $hat(A)$ only contains $cos(4pi f_1 ZZ)$. That means if you change $f_1 |-> f_1 + 1/2$, $hat(A)$ does not change, because $4pi times 1/2 = 2pi$ is a period of $cos$.
 
 - $variant hat(A)$ attains *local minimum at $0$ and $1/2$*.
 
-  If $f_1 = 0$ (or $f_1=1/2$), then the band-pass filter of $f_1$ will remove the $f=1/2$ (or $f=0$ respectively) component totally --- $cos(0 n)$ ($+,+,...$) and $cos(pi n)$ ($+,-,...$) are orthogonal.
+  $cos(0 n)$ ($+,+,...$) and $cos(pi n)$ ($+,-,...$) are orthogonal. If $f_1 = 0$, then the band-pass filter of $f_1$ will remove the $f=1/2$ component totally. Similarly, $f_1 = 1/2$ leads to complete removal of $f=0$.
 
-  Therefore, $f_1 = 0$ or $1/2$ band-pass filter will remove one of the two components of $w$, so $variant hat(A)$ is approximately a half of the worst case.
+  Therefore, $f_1 = 0$ or $1/2$ band-pass filter will remove one of the two components of $w$, so $variant hat(A)$ is about a half of the worst case.
 
 - The curve is *not stable around $0$ and $1/2$*.
 
@@ -209,9 +209,9 @@ As shown in @fig:variance, *$f_1 = 1/4$ yields the smallest $variant hat(A)$* fo
 
   $hat(A)$ is roughly a band-pass filter at $f_1$ applied on $x$ normalized to $A$. If the sequence $cos(2pi f_1 n), space n=0,...,N-1$ does not vary sufficiently, the filter is not well-behaved.
 
-  I've discussed the unstable range with 林曦萌, and he explains how the range is unstable. No matter what $C^(-1)$ is, $H^dagger C^(-1) H$ is always a linear combination of $cos(2pi f m) cos(2pi f n)$ (where $m,n in {0,...,N-1}$), and can be regarded as a partial sum of a cosine series. The most unstable component among them is $cos(4pi (N-1) f)$, and it contributes to the unstable range. This explains why the curve oscillates more violently (thus, more concentrated) for larger $N$.
+  I've discussed the unstable range with 林曦萌, and he explains how the range is unstable. No matter what $C^(-1)$ is, $H^dagger C^(-1) H$ is always a linear combination of $cos(2pi f m) cos(2pi f n)$ (where $m,n in {0,...,N-1}$), and we can regard it as a partial sum of a cosine series. The most unstable component among them is $cos(4pi (N-1) f)$, and it contributes to the unstable range. This explains why the curve oscillates more violently (and therefore more concentrated) for larger $N$.
 
-- $N A^2 variant hat(A) -> 2 P_w (f_1)$ *as $N -> +oo$* for $f_1 in (0,1/2)$ pointwisely. (See @fig:variance-n-500)
+- $N A^2 variant hat(A) -> 2 P_w (f_1)$ *as $N -> +oo$* for $f_1 in (0,1/2)$ pointwise. (See @fig:variance-n-500)
 
   #figure(
     image("fig/variance-n-500.png", width: 80%),
@@ -284,7 +284,7 @@ overline(x^2) - 2 A overline(x) + A^2
 $
 Now it is obvious that $hat(A) = overline(x)$ is a maximum likelihood estimator (MLE).
 
-$overline(x)$ follows a normal distribution as it is a linear combination of joint normally distributed $x[0], x[1], ..., x[N-1]$. Then we can determine the distribution by calculating first 2 moments:
+$overline(x)$ follows a normal distribution as it is a linear combination of joint normally distributed $x[0], x[1], ..., x[N-1]$. Then we can find out the distribution by calculating first 2 moments:
 $
 expect overline(x)
 &= overline(expect x) = overline(A) = A. \
@@ -297,7 +297,7 @@ Therefore $overline(x) tilde cal(N)(A, sigma^2/N)$.
 
 == Monte--Carlo simulations
 
-Histograms of Monte--Carlo simulations are comparing with $cal(N)(A, sigma^2/N)$ below.
+Histograms of Monte--Carlo simulations comparing with $cal(N)(A, sigma^2/N)$ are as the following.
 
 #figure(
   image("fig/PDF-1000.png", width: 60%),
@@ -402,12 +402,12 @@ To wrap up:
 
 _Remarks._
 In fact it is redundant to iterate all three variable, because $variant hat(A)$ and $K$ are highly related.
-To specific, $variant hat(A)[n-1] |-> K$ and $(variant hat(A)[n-1], K) |-> variant hat(A)[n]$ can be merged.
-Moreover, it would be even simpler to iterate $X,S$ that I mentioned above.
+To specific, we can merge $variant hat(A)[n-1] |-> K$ and $(variant hat(A)[n-1], K) |-> variant hat(A)[n]$.
+Moreover, it would be even simpler to iterate $X,S$ in previous derivation.
 
 == Simulations
 
-$variant hat(A)$ and $K$ does not change across simulations once $A, r$ are determined. We will analyze $hat(A)$ after talking about $variant hat(A)$ and $K$.
+$variant hat(A)$ and $K$ does not change across simulations after $A, r$ are determined. We will analyze $hat(A)$ after talking about $variant hat(A)$ and $K$.
 
 #figure(
   image("fig/recursive-variance.png", width: 100%),
@@ -440,7 +440,7 @@ $variant hat(A)$ and $K$ does not change across simulations once $A, r$ are dete
 
 - $variant hat(A)$ is always *positive*.
 
-  It is nonnegative by definition. It is nonzero because the initial randomness can never be removed.
+  It is nonnegative by definition. It is nonzero because the initial randomness can never be erased.
 
 #figure(
   image("fig/recursive-gain.png", width: 100%),
@@ -453,7 +453,7 @@ $variant hat(A)$ and $K$ does not change across simulations once $A, r$ are dete
 
 - $K$ *decreases* as $n$ increases.
 
-  Again, new estimation is a compromise between last estimation and new data. Once $n$ is sufficiently large, we have obtained almost all the information of $A$ from existing data, thus new data matters less.
+  Again, new estimation is a compromise between last estimation and new data. Once $n$ is sufficiently large, we have obtained almost all the information of $A$ from existing data, so new data matters less.
 
   In addition, $K$ *drops faster* when $n$ is small.
 
@@ -475,11 +475,11 @@ $variant hat(A)$ and $K$ does not change across simulations once $A, r$ are dete
 
 - $K$ is always strictly *between $0$ and $1$*.
 
-  New estimation is a compromise between last estimation and new data with weight $(1-K):K$. To make sure that new estimation is between last estimation and new data, both $1-K$ and $K$ should be nonnegative, thus $K in [0,1]$.
+  New estimation is a compromise between last estimation and new data with weight $(1-K):K$. To make sure that new estimation is between last estimation and new data, both $1-K$ and $K$ should be nonnegative, and thus $K in [0,1]$.
 
   If $K$ takes one of the endpoints, then either existing data or new data is totally ignored. Insufficient use of data never gives a good estimator.
 
-Now let us discuss $hat(A)$, which is a random variable (or a random sequence if you like). The simulation result is shown below.
+Now let us discuss $hat(A)$, which is a random variable (or a random sequence). The simulation result is shown in @fig:recursive-estimator.
 
 #figure(
   image("fig/recursive-estimator.png", width: 80%),
@@ -488,7 +488,7 @@ Now let us discuss $hat(A)$, which is a random variable (or a random sequence if
 
     $A=10$.
   ]
-)
+) <fig:recursive-estimator>
 
 - $x$ is roughly distributed *between* $A plus.minus r^(n\/2)$.
 
@@ -506,7 +506,7 @@ Now let us discuss $hat(A)$, which is a random variable (or a random sequence if
 
 - $hat(A)$ approaches to the true value more *quickly* for smaller $r$.
 
-  It is a subtle phenomenon, and worth pointing out evidences. For $r=0.95$, the line of $hat(A)$ coincides with the horizontal grid line of $10$ starting from $n approx 60$. For $r=1$, it coincides starting from $n approx 90$. For $r=1.05$, it never coincides…
+  It is a subtle phenomenon, and worth pointing out evidences. For $r=0.95$, the line of $hat(A)$ coincides with the horizontal grid line of $10$ starting from $n approx 60$. For $r=1$, it coincides starting from $n approx 90$. For $r=1.05$, it never coincides.
 
   It also due to the trend of $variant hat(A)$.
 
@@ -520,4 +520,4 @@ Now let us discuss $hat(A)$, which is a random variable (or a random sequence if
 
   When $n$ is small (say, $n < 10$), all 3 cases gives unstable estimations with large error.
 
-  $r$ does not alter $r^n$ too much if $n$ is small, so they are indistinguishable. There is too few data if $n$ is small, thus there is no sufficient information, so all estimations are bad.
+  $r$ does not alter $r^n$ too much if $n$ is small, so they are indistinguishable. There is too few data if $n$ is small, hence insufficient information, so all estimations are bad.
