@@ -23,7 +23,11 @@
 
 3. DC level estimation and maximum likelihood estimator
 
+    Textbook: Example 7.5, Page 164. (Not exact)
+
 4. DC level estimation and recursive least squares
+
+    Textbook: Figure 8.9, Page 247. (Not exact)
 
 ## `/assets/author.yaml` example
 

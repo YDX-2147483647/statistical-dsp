@@ -344,7 +344,7 @@ Histograms of Monte--Carlo simulations comparing with $cal(N)(A, sigma^2/N)$ are
     ]
   ) <fig:PDF-1000-too_many_bins>
 
-  This is an essential caveat of Monte--Carlo simulations. To obtain a detailed PDF, we should make more realizations. @fig:PDF-5000 increases $M$ from $1000$ to $5000$, and the data is capable of more bins.
+  This is an essential caveat of Monte--Carlo simulations. To obtain a detailed PDF, we should make more realizations. @fig:PDF-5000 increases $M$ from $1000$ to $5000$, and the data is capable of more bins. The simulated PDF match the theoretical PDF more closely for large $M$ (i.e. more realizations).
 
   #figure(
     image("fig/PDF-5000.png", width: 60%),
@@ -547,7 +547,7 @@ Now let us discuss $hat(A)$, which is a random variable (or a random sequence). 
 
 1. *CRLB* is a good lower bound, but sometimes it cannot give a specific estimator.
 2. *BLUE* is viable (at least numerically) if the first two moments of samples is known. We can asses its performance in terms of first two moments, but we are not certain about whether better nonlinear estimator exists.
-3. *MLE* can be performed if we assume the PDF of samples. We cannot tell if it is biased or calculate the variance for a finite sample size, but we can claim asymptotical properties: MLE is asymptotically unbiased and consistent. Monte--Carlo method tells how the limit fast is for specific true values.
+3. *MLE* can be performed if we assume the PDF of samples. We cannot tell if it is biased or calculate the variance for a finite sample size, but we can claim asymptotical properties: MLE is asymptotically unbiased, efficient, and consistent. Monte--Carlo method tells how the limit fast is for specific true values.
 4. *LSE* is a practical estimator with no theoretical assurance, featuring the possibility of monitoring --- We can estimate sequentially and decide what to do next, while other estimators are waiting for the full data.
 
 In all four experiments, the quality of data is crucial for estimation. We can never estimate robustly if *noise* overwhelms the *signal* representing parameters.
