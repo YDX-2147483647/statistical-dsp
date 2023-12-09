@@ -177,7 +177,7 @@ $
 _Remarks._
 The document did not specify whose PSD should be of concerned. PSD of $w$ is strongly related to performance of $hat(A)$, so I discuss it here. Besides, PSD of $x = A cos(2pi f_1 n) + w$ is $P_w (f)$ plus a Dirac $delta$ at $f = f_1$. (Specific strength of $delta$ depends on the value of $A$.)
 
-== Variance of the estimator
+== Variance of the estimator <sec:2-3>
 
 $
 variant hat(A) = (H^dagger C^(-1) H)^(-1),
@@ -354,6 +354,10 @@ Histograms of Monte--Carlo simulations comparing with $cal(N)(A, sigma^2/N)$ are
       $A=1$, $sigma^2=0.1$, $N=50$ with $M=5000$ realizations.
     ]
   ) <fig:PDF-5000>
+
+- *$M$ does not affect* the position and width of the bell curve.
+
+  $M=1000$ (@fig:PDF-1000) and $M=5000$ (@fig:PDF-5000) are two different simulations for the _same_ distribution. Be aware that we have two dimensionless numbers: $M$ determines accuracy of our _simulation_, and $N$ affects accuracy of the _estimator_.
 
 = DC level estimation and recursive least squares
 
@@ -538,3 +542,13 @@ Now let us discuss $hat(A)$, which is a random variable (or a random sequence). 
   When $n$ is small (say, $n < 10$), all 3 cases gives unstable estimations with large error.
 
   $r$ does not alter $r^n$ too much if $n$ is small, so they are indistinguishable. There is too few data if $n$ is small, hence insufficient information, so all estimations are bad.
+
+= Comparison between methods
+
+1. *CRLB* is a good lower bound, but sometimes it cannot give a specific estimator.
+2. *BLUE* is viable (at least numerically) if the first two moments of samples is known. We can asses its performance in terms of first two moments, but we are not certain about whether better nonlinear estimator exists.
+3. *MLE* can be performed if we assume the PDF of samples. We cannot tell if it is biased or calculate the variance for a finite sample size, but we can claim asymptotical properties: MLE is asymptotically unbiased and consistent. Monte--Carlo method tells how the limit fast is for specific true values.
+4. *LSE* is a practical estimator with no theoretical assurance, featuring the possibility of monitoring --- We can estimate sequentially and decide what to do next, while other estimators are waiting for the full data.
+
+In all four experiments, the quality of data is crucial for estimation. We can never estimate robustly if *noise* overwhelms the *signal* representing parameters.
+The relation is not restricted not single numbers (variances for example). As discussed in @sec:2-3, feature spaces such as frequency domain may also matter.
