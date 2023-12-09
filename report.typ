@@ -1,11 +1,28 @@
 #import "@preview/physica:0.8.1": pdv, order
+#import "template.typ": project
 
-#set heading(numbering: "1.1")
+#show: project.with(
+  title: "Experimental and Simulation Training",
+  author: yaml("assets/author.yaml"),
+  date: "2023-11 – 2023-12",
+  info: (
+    Course: [Statistical Digital Signal Processing],
+    Teacher: [杨小鹏、曾小路],
+    "Student name": "{name}",
+    "Student ID": "{id}",
+    "Class ID": "{class_id}",
+    School: [Information and Electronics],
+    Major: [Electronic Engineering],
+    "Laboratory time": "{date}",
+    Location: [(Known but random)],
+    "Experiment type": [Principle verification],
+    Partner: [(None)],
+    Score: none,
+  ),
+)
 
 #let expect = math.op("𝔼")
 #let variant = math.op("𝕍")
-
-#outline(indent: 2em)
 
 = Sinusoidal frequency estimation and Cramér--Rao lower bound
 

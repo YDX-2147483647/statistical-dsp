@@ -24,3 +24,11 @@
 3. DC level estimation and maximum likelihood estimator
 
 4. DC level estimation and recursive least squares
+
+## `/assets/author.yaml` example
+
+```yaml
+name: 叶文洁
+id: 18904138
+class_id: 647
+```
