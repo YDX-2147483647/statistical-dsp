@@ -10,7 +10,6 @@
 ) = {
   // Document's basic properties
   set document(author: author.name, title: title)
-  set page(numbering: "1 / 1", number-align: center)
 
   // Font families
   let body-font = ("Linux Libertine", "Source Han Serif")
@@ -81,6 +80,8 @@
 
   //! Main body
 
+  set page(numbering: "1 / 1", number-align: center)
+  counter(page).update(1)
   set par(justify: true)
 
   outline(indent: 2em)
